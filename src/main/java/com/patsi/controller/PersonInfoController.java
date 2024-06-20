@@ -2,8 +2,11 @@ package com.patsi.controller;
 
 import com.patsi.bean.Person;
 import com.patsi.service.PersonInfoService;
+import com.patsi.service.ValidatorService;
 import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,14 +14,23 @@ import java.util.List;
 @RestController
 @RequestMapping("/PersonInfo")
 @CrossOrigin
+@Validated
 public class PersonInfoController {
 
     @Autowired
     private PersonInfoService personInfoService;
+    @Autowired
+    private ValidatorService validatorService;
 
     @PostMapping
-    public boolean registerPerson(@RequestBody Person person) throws MessagingException {
-        return personInfoService.registerPerson(person);
+    public List<String> registerPerson(@RequestBody @Valid Person person) throws MessagingException {
+        List<String> errList = validatorService.callValidator(person);
+        if (errList != null) {
+            return errList;
+        } else {
+            personInfoService.registerPerson(person);
+            return List.of();
+        }
     }
 
     @GetMapping
