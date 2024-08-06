@@ -1,3 +1,5 @@
+package serviceTests;
+
 import com.patsi.Main;
 import com.patsi.service.FlagToggleServices;
 import org.junit.jupiter.api.Test;

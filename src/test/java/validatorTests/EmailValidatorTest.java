@@ -1,3 +1,5 @@
+package validatorTests;
+
 import com.common.validation.utils.ValidationHelper;
 import com.common.validation.validator.EmailValidator;
 import com.patsi.Main;

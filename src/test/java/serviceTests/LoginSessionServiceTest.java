@@ -1,20 +1,26 @@
+package serviceTests;
+
+import com.common.commonUtils.TokenHelper;
 import com.patsi.Main;
 import com.patsi.bean.LogInSession;
 import com.patsi.bean.Person;
 import com.patsi.repository.PersonRepository;
 import com.patsi.repository.SessionRepository;
 import com.patsi.service.LogInSessionService;
-import com.patsi.utils.TokenHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -22,8 +28,10 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
-@SpringBootTest(classes = Main.class)
+//@SpringBootTest(classes = Main.class)
 @ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class LoginSessionServiceTest {
 
     @InjectMocks

@@ -1,4 +1,5 @@
-import com.common.email.service.EmailService;
+package serviceTests;
+
 import com.patsi.Main;
 import com.patsi.bean.LogInSession;
 import com.patsi.bean.Person;
@@ -14,11 +15,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 
@@ -26,12 +28,12 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
-@SpringBootTest(classes = Main.class)
 @ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 @TestPropertySource(properties = {"saltForPasswordEncryption = 8ab15c1c1c271e297c3f6d34e695b3f8",
     "algorithmForPasswordEncryption = SHA3-256"}
 )
-//@TestPropertySource(locations="classpath:application-test.properties")
 public class LoginServiceTest {
 
     @InjectMocks

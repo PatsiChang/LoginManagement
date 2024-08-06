@@ -2,7 +2,9 @@ package com.patsi.controller;
 
 import com.common.validation.service.ValidatorService;
 import com.patsi.bean.Person;
+import com.patsi.bean.UnverifiedPerson;
 import com.patsi.service.PersonInfoService;
+import com.patsi.validator.PersonRegistryValidation;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/PersonInfo")
@@ -21,22 +24,32 @@ public class PersonInfoController {
     private PersonInfoService personInfoService;
     @Autowired
     private ValidatorService validatorService;
+    @Autowired
+    private PersonRegistryValidation personRegistryValidation;
 
     @PostMapping
-    public List<String> registerPerson(@RequestBody @Valid Person person) throws MessagingException {
-        List<String> errList = validatorService.checkAnnotation(person);
-        if (errList != null) {
+    public List<String> registerUnverifiedPerson(@RequestBody @Valid UnverifiedPerson unverifiedPerson)
+        throws MessagingException {
+        List<String> errList = validatorService.checkAnnotation(unverifiedPerson);
+        if (!errList.isEmpty()) {
             return errList;
         } else {
-            personInfoService.registerPerson(person);
-            return List.of();
+            List<String> validationResult = personRegistryValidation.validateUnverifiedPerson(unverifiedPerson);
+            if (validationResult.isEmpty()) {
+                personInfoService.registerUnverifiedPerson(unverifiedPerson);
+            }
+            return validationResult;
         }
     }
-
-    @GetMapping
-    public boolean getPerson(@RequestParam String userId) {
-        return personInfoService.getPerson(userId);
+    @PostMapping("/verifyEmail")
+    public String emailVerificationResponse(@RequestParam String emailVerifyToken, String email) {
+        return personInfoService.registerVerifiedPerson(emailVerifyToken, email);
     }
+
+//    @GetMapping
+//    public boolean getPerson(@RequestParam String userId) {
+//        return personInfoService.(userId);
+//    }
 
     @GetMapping("/getAllPerson")
     public List<Person> getAllPerson() {
@@ -45,7 +58,6 @@ public class PersonInfoController {
 
     @DeleteMapping
     public void deletePerson(@RequestBody Person person) {
-        System.out.println("controller" + person.getUid());
         personInfoService.deletePeron(person);
     }
 }

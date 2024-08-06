@@ -1,47 +1,44 @@
 package com.patsi.service;
 
+import com.common.commonUtils.TokenHelper;
 import com.common.email.bean.Email;
 import com.common.email.service.EmailService;
 import com.patsi.bean.Person;
+import com.patsi.bean.UnverifiedPerson;
 import com.patsi.repository.PersonRepository;
+import com.patsi.repository.UnverifiedPersonRepository;
 import com.patsi.utils.SHAHelper;
 import jakarta.mail.MessagingException;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-
-import static com.patsi.utils.SHAHelper.bytesToHex;
+import java.util.Random;
 
 
 @Service
+@Slf4j
 public class PersonInfoService {
 
     @Autowired
     private PersonRepository personRepository;
+    @Autowired
+    private UnverifiedPersonRepository unverifiedPersonRepository;
     @Autowired
     private EmailService emailService;
     @Autowired
     private LoginValueServices loginValueServices;
     @Autowired
     private FlagToggleServices flagToggleServices;
-    Logger log = LoggerFactory.getLogger(PersonInfoService.class);
 
-
-//    private String algorithm = "SHA3-256";
-
-    //Check if useId exists
-    public boolean getPerson(String userId) {
-        return (personRepository.findByUserId(userId).isPresent()) ? true : false;
-    }
 
     public List<Person> getAllPerson() {
-        log.info("Inside Get All Person");
         return personRepository.findAll();
     }
 
@@ -59,23 +56,46 @@ public class PersonInfoService {
         return SHAHelper.bytesToHex(dm);
     }
 
-    //Register Person
-    public boolean registerPerson(Person person) throws MessagingException {
-        log.info("In service person userId " + person.getUserId());
-        if (getPerson(person.getUserId())) {
-            return false;
-        } else {
-            person.setPassword(passwordEncryption(person.getPassword()));
-            personRepository.save(person);
-            if (flagToggleServices.getEnableEmailFlag()) {
-                sendEmailTest(person);
-            }
-            return true;
+    @Transactional
+    public String registerVerifiedPerson(String token, String email) {
+        if (token.length() == 6 && personRepository.findByEmail(email).isPresent()) {
+            return "Account already Activated";
         }
+        return unverifiedPersonRepository.findByToken(token)
+            .map(unverifiedPerson -> {
+                if (unverifiedPerson.getEmail().equals(email)) {
+                    String encryptedPassword = passwordEncryption(unverifiedPerson.getPassword());
+                    personRepository.save(
+                        Person.builder()
+                            .userId(unverifiedPerson.getUserId())
+                            .email(unverifiedPerson.getEmail())
+                            .name(unverifiedPerson.getName())
+                            .password(encryptedPassword)
+                            .build()
+                    );
+                    unverifiedPersonRepository.deleteByToken(token);
+                    return "Successfully Created Account";
+                }
+                return "Passcode mismatch Email!";
+            })
+            .orElse("Invalid Token!");
+
     }
 
-    public boolean sendEmailTest(Person p) throws MessagingException {
-        Email sighUpEmail = new Email(p.getEmail(), "Patsi",
+    //Todo: Set Expiry for staged profile?
+    public String registerUnverifiedPerson(UnverifiedPerson unverifiedPerson) throws MessagingException {
+        String emailVerifyToken = String.valueOf(new Random().nextInt(900000) + 100000);
+        unverifiedPerson.setToken(emailVerifyToken);
+        unverifiedPersonRepository.save(unverifiedPerson);
+        if (flagToggleServices.getEnableEmailFlag()) {
+            sendVerifyEmail(unverifiedPerson);
+        }
+        return "";
+
+    }
+
+    private boolean sendVerifyEmail(UnverifiedPerson unverifiedPerson) throws MessagingException {
+        Email sighUpEmail = new Email(unverifiedPerson.getEmail(), unverifiedPerson.getName(), unverifiedPerson.getToken(),
             "Sign Up Notification", "Welcome to Smart Home", true);
         emailService.sendEmail(sighUpEmail);
         return true;

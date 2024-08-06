@@ -1,3 +1,5 @@
+package validatorTests;
+
 import com.common.validation.validator.PasswordValidator;
 import com.patsi.Main;
 import com.patsi.bean.Person;

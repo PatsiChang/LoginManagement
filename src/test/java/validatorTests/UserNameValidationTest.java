@@ -1,3 +1,5 @@
+package validatorTests;
+
 import com.common.validation.bean.ProfanityWords;
 import com.common.validation.repository.ProfanityWordsRepository;
 import com.patsi.Main;

@@ -4,23 +4,22 @@ import com.common.validation.annotations.IsEmail;
 import com.common.validation.annotations.IsPassword;
 import com.patsi.annotations.IsUserName;
 import jakarta.persistence.*;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-
-import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "Person")
-public class Person {
+@Table(name = "unverifiedperson")
+public class UnverifiedPerson {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID uid;
+    private String token;
     @NotNull
     @NotEmpty
     @Column(name = "USERID")
@@ -37,5 +36,4 @@ public class Person {
     @NotEmpty
     @IsPassword(min = 4)
     private String password;
-
 }

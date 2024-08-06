@@ -2,7 +2,6 @@ package com.patsi.controller;
 
 import com.patsi.bean.Person;
 import com.patsi.service.LogInSessionService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +28,6 @@ public class LogInSessionController {
         return (p != null) ? new ResponseEntity<>(p.getUid().toString(), HttpStatus.OK)
             : ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token");
     }
-//
-//    @GetMapping
-//    public List<LogInSession> findAllSessions() {
-//        return logInSessionService.findAllSessions();
-//    }
 
     @PutMapping
     public boolean renewToken(String token) {

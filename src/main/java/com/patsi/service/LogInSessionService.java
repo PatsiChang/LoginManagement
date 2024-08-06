@@ -1,16 +1,15 @@
 package com.patsi.service;
 
+import com.common.commonUtils.TokenHelper;
 import com.patsi.bean.LogInSession;
 import com.patsi.bean.Person;
 import com.patsi.repository.PersonRepository;
 import com.patsi.repository.SessionRepository;
-import com.patsi.utils.TokenHelper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.function.Supplier;
 import java.security.SecureRandom;
 
 @Service
