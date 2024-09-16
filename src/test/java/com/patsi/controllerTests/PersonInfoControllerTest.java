@@ -1,15 +1,12 @@
-package controllerTests;
+package com.patsi.controllerTests;
 
 
 import com.common.validation.service.ValidatorService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.patsi.Main;
 import com.patsi.service.PersonInfoService;
 import com.patsi.validator.PersonRegistryValidation;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import serviceTests.CommonTest;
+import com.patsi.serviceTests.CommonTest;
 
 import java.util.List;
 

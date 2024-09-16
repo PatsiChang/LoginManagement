@@ -1,14 +1,11 @@
-package validatorTests;
+package com.patsi.validatorTests;
 
-import com.common.validation.utils.ValidationHelper;
 import com.common.validation.validator.EmailValidator;
 import com.patsi.Main;
 import com.patsi.bean.Person;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +16,6 @@ import static org.junit.Assert.assertEquals;
 
 
 @SpringBootTest(classes = Main.class)
-@ActiveProfiles("test")
 public class EmailValidatorTest {
 
     @InjectMocks

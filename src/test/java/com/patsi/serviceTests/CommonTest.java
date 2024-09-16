@@ -1,4 +1,4 @@
-package serviceTests;
+package com.patsi.serviceTests;
 
 import com.patsi.bean.Person;
 import com.patsi.bean.UnverifiedPerson;

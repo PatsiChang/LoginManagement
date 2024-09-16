@@ -1,4 +1,4 @@
-package serviceTests;
+package com.patsi.serviceTests;
 
 import com.patsi.repository.PersonRepository;
 import com.patsi.repository.UnverifiedPersonRepository;

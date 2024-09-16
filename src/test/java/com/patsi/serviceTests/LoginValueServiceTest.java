@@ -1,4 +1,4 @@
-package serviceTests;
+package com.patsi.serviceTests;
 
 import com.patsi.Main;
 import com.patsi.service.LoginValueServices;
@@ -6,11 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.Assert.assertEquals;
 
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 @SpringBootTest(classes = Main.class)
 public class LoginValueServiceTest {
     @Value("${saltForPasswordEncryption}")

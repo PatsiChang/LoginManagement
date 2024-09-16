@@ -12,8 +12,8 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RestController
 @RequestMapping("/logInSession")
 @CrossOrigin
-
 public class LogInSessionController {
+
     @Autowired
     private LogInSessionService logInSessionService;
 
@@ -24,8 +24,8 @@ public class LogInSessionController {
 
     @GetMapping("/getPersonUid")
     public ResponseEntity<String> findPersonUidByToken(@RequestHeader(AUTHORIZATION) String token) {
-        Person p = logInSessionService.findPersonByToken(token);
-        return (p != null) ? new ResponseEntity<>(p.getUid().toString(), HttpStatus.OK)
+        Person person = logInSessionService.findPersonByToken(token);
+        return (person != null) ? new ResponseEntity<>(person.getUid().toString(), HttpStatus.OK)
             : ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token");
     }
 

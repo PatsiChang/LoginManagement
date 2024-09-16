@@ -1,4 +1,4 @@
-package validatorTests;
+package com.patsi.validatorTests;
 
 import com.common.validation.bean.ProfanityWords;
 import com.common.validation.repository.ProfanityWordsRepository;
@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +20,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = Main.class)
-@ActiveProfiles("test")
 public class UserNameValidationTest {
 
     @InjectMocks

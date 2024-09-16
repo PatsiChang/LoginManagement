@@ -1,4 +1,4 @@
-package utilTests;
+package com.patsi.utilTests;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

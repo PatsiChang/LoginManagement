@@ -1,7 +1,6 @@
-package serviceTests;
+package com.patsi.serviceTests;
 
 import com.common.commonUtils.TokenHelper;
-import com.patsi.Main;
 import com.patsi.bean.LogInSession;
 import com.patsi.bean.Person;
 import com.patsi.repository.PersonRepository;
@@ -21,14 +20,13 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
-//@SpringBootTest(classes = Main.class)
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -52,7 +50,7 @@ public class LoginSessionServiceTest {
     void setUp() {
         //Find session by token
         when(sessionRepository.findBySessionToken("Token"))
-            .thenReturn(logInSession);
+            .thenReturn(Optional.ofNullable(logInSession));
         //Find Person by customerId
         when(personRepository.findById(logInSession.getCustomerId()))
             .thenReturn(java.util.Optional.ofNullable(person));

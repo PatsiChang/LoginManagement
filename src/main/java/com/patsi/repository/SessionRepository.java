@@ -15,7 +15,7 @@ public interface SessionRepository extends JpaRepository<LogInSession, UUID> {
 
     List<LogInSession> findAll();
 
-    LogInSession findBySessionToken(String token);
+    Optional<LogInSession> findBySessionToken(String token);
 
     Optional<LogInSession> findByCustomerId(UUID customerId);
 

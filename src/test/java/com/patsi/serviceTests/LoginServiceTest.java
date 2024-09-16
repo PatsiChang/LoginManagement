@@ -1,6 +1,5 @@
-package serviceTests;
+package com.patsi.serviceTests;
 
-import com.patsi.Main;
 import com.patsi.bean.LogInSession;
 import com.patsi.bean.Person;
 import com.patsi.bean.UserLogin;

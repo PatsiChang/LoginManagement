@@ -41,21 +41,20 @@ public class PersonInfoController {
             return validationResult;
         }
     }
+
     @PostMapping("/verifyEmail")
     public String emailVerificationResponse(@RequestParam String emailVerifyToken, String email) {
         return personInfoService.registerVerifiedPerson(emailVerifyToken, email);
     }
 
-//    @GetMapping
-//    public boolean getPerson(@RequestParam String userId) {
-//        return personInfoService.(userId);
-//    }
-
+    //Todo: Delete after development
     @GetMapping("/getAllPerson")
     public List<Person> getAllPerson() {
         return personInfoService.getAllPerson();
     }
 
+
+    //Todo: Add validation and Store data for 30 days
     @DeleteMapping
     public void deletePerson(@RequestBody Person person) {
         personInfoService.deletePeron(person);

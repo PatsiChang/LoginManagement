@@ -1,6 +1,5 @@
-package validatorTests;
+package com.patsi.validatorTests;
 
-import com.patsi.Main;
 import com.patsi.bean.Person;
 import com.patsi.bean.UnverifiedPerson;
 import com.patsi.repository.PersonRepository;
@@ -13,14 +12,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)

@@ -47,12 +47,10 @@ public class LogInSessionService {
 
     public Person findPersonByToken(String token) {
         String sessionToken = TokenHelper.removeBearer(token);
-        LogInSession s = sessionRepository.findBySessionToken(sessionToken);
-        if (s != null) {
-            return personRepository.findById(s.getCustomerId()).orElse(null);
-        } else {
-            return null;
-        }
+        Optional<LogInSession> sessionOptional = sessionRepository.findBySessionToken(sessionToken);
+        return sessionOptional
+            .map(session -> personRepository.findById(session.getCustomerId()).orElse(null))
+            .orElse(null);
     }
 
     public Person findPerson(String userId) {
@@ -61,11 +59,12 @@ public class LogInSessionService {
 
     public boolean renewSession(String token) {
         String sessionToken = TokenHelper.removeBearer(token);
-        return Optional.ofNullable(sessionRepository.findBySessionToken(sessionToken))
-            .map(s -> {
-                Long expiryTime = System.currentTimeMillis() + 600000L;
-                s.setExpiryTime(expiryTime);
-                return true;
+        Long newExpiryTime = System.currentTimeMillis() + 600000L;
+
+        return sessionRepository.findBySessionToken(sessionToken)
+            .map(session -> {
+                    session.setExpiryTime(newExpiryTime);
+                    return true;
             })
             .orElse(false);
     }

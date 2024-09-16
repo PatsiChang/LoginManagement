@@ -1,4 +1,4 @@
-package validatorTests;
+package com.patsi.validatorTests;
 
 import com.common.validation.validator.PasswordValidator;
 import com.patsi.Main;
@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +17,6 @@ import java.util.UUID;
 import static org.junit.Assert.assertEquals;
 
 @SpringBootTest(classes = Main.class)
-@ActiveProfiles("test")
 public class PasswordValidationTest {
 
     @InjectMocks

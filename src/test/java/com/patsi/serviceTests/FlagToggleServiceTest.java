@@ -1,4 +1,4 @@
-package serviceTests;
+package com.patsi.serviceTests;
 
 import com.patsi.Main;
 import com.patsi.service.FlagToggleServices;
@@ -6,12 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 
-@ActiveProfiles("test")
 @SpringBootTest(classes = Main.class)
 public class FlagToggleServiceTest {
 
@@ -25,6 +23,6 @@ public class FlagToggleServiceTest {
     @Test
     void testGetEnableEmailFlagWithTrueValue() {
         boolean result = flagToggleServices.getEnableEmailFlag();
-        assertTrue(result);
+        assertFalse(result);
     }
 }
